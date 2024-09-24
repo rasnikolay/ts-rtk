@@ -4,7 +4,7 @@ import { fetchUsers } from './store/reducers/ActionCreators';
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const {users} = useAppSelector(state => state.userReducer);
+  const {users, isLoading, error} = useAppSelector(state => state.userReducer);
 
   useEffect(() => {
       dispatch(fetchUsers())
@@ -12,6 +12,8 @@ const App = () => {
 
   return (
     <div>
+      {isLoading && <h1>Идет загрузка...</h1>}
+      {error && <h1>{error}</h1>}
       {JSON.stringify(users, null, 2)} 
     </div>
   );

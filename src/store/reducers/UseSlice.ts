@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IUser } from "../../models/IUser"
+import { IUser } from "../../models/IUser";
+import { fetchUsers } from "./ActionCreators";
 
 interface UserState {
     users: IUser[];
     isLoading: boolean;
-    error: string;
+    error: string | null;
 }
 
 const initialState: UserState = {
@@ -16,19 +17,26 @@ const initialState: UserState = {
 export const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {
-       usersFetching(state) {
-            state.isLoading = true;
-       },
-       usersFetchingSuccess(state, action: PayloadAction<IUser[]>) {
-            state.isLoading = false;
-            state.error = '';
-            state.users = action.payload;
-       },
-       usersFetchingError(state, action: PayloadAction<string>) {
-            state.isLoading = false;
-            state.error = action.payload;
-       },
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchUsers.fulfilled, (state, action: PayloadAction<IUser[]>) => {
+                state.isLoading = false;
+                state.error = '';
+                state.users = action.payload;
+            })
+            .addCase(fetchUsers.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(fetchUsers.rejected, (state, action) => {
+                state.isLoading = false;
+                
+                if (action.payload) {
+                    state.error = action.payload as string; 
+                } else if (action.error) {
+                    state.error = action.error.message || 'Ошибка при загрузке данных';
+                }
+            });
     }
 })
 
