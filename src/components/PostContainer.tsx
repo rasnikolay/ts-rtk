@@ -17,7 +17,7 @@ const PostContainer = () => {
     // },)
 
     return (
-        <div>
+        <div className='post__list'>
             {/* <button onClick={() => refetch()}>REFEATCH</button> */}
             {isLoading && <h1>Идет загрузка...</h1>}
             {error && <h1>Упс, произошла ошибка</h1>}

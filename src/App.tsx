@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './hooks/redux';
 import { fetchUsers } from './store/reducers/ActionCreators';
 import PostContainer from './components/PostContainer';
+import './App.css';
 
 const App = () => {
   // пример
@@ -13,7 +14,7 @@ const App = () => {
   // }, [])
 
   return (
-    <div>
+    <div className='App'>
       {/* {isLoading && <h1>Идет загрузка...</h1>}
       {error && <h1>{error}</h1>}
       {JSON.stringify(users, null, 2)}  */}
